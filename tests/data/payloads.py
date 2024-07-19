@@ -65,7 +65,6 @@ payload_invalid = {
 }
 
 payload_update = {
-    "id": "",
     "info": {
         "colors": [
             "red",
@@ -81,7 +80,6 @@ payload_update = {
         "2"
     ],
     "text": "h",
-    "updated_by": "",
     "url": "www.www.com"
 }
 payload_with_invalid_id = {

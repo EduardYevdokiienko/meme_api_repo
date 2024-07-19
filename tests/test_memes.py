@@ -35,9 +35,8 @@ def test_get_all_memes(auth_token, get_meme_endpoint):
 @allure.story('Get a meme')
 @pytest.mark.regression
 @pytest.mark.positive
-def test_get_meme_by_id(auth_token, post_meme_endpoint, get_meme_by_id_endpoint):
-    meme_id, _ = post_meme_endpoint.post_meme(auth_token, payloads.payload_with_info)
-    get_meme_by_id_endpoint.get_meme_by_id(auth_token, meme_id)
+def test_get_meme_by_id(auth_token, new_meme, get_meme_by_id_endpoint):
+    get_meme_by_id_endpoint.get_meme_by_id(auth_token, new_meme)
     assert get_meme_by_id_endpoint.check_status_code_is_(200)
 
 
@@ -78,9 +77,10 @@ def test_get_meme_by_empty_id(auth_token, get_meme_by_id_endpoint):
 @allure.story('change a meme info')
 @pytest.mark.regression
 @pytest.mark.positive
-def test_update_meme_by_id(auth_token, post_meme_endpoint, put_meme_by_id_endpoint):
-    meme_id, _ = post_meme_endpoint.post_meme(auth_token, payloads.new_meme_empty_payload)
-    put_meme_by_id_endpoint.change_meme_by_id(auth_token, payloads.payload_with_info, meme_id)
+def test_update_meme_by_id(auth_token, new_meme, put_meme_by_id_endpoint):
+    payload = payloads.payload_with_info
+    payload['id'] = new_meme
+    put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
     assert put_meme_by_id_endpoint.check_status_code_is_(200)
 
 
@@ -90,7 +90,7 @@ def test_update_meme_by_id(auth_token, post_meme_endpoint, put_meme_by_id_endpoi
 @pytest.mark.negative
 def test_update_meme_invalid_id(auth_token, put_meme_by_id_endpoint):
     invalid_meme_id = "invalid_id"
-    put_meme_by_id_endpoint.change_meme_by_id(auth_token, payloads.payload_update, invalid_meme_id)
+    put_meme_by_id_endpoint.change_meme_by_id(auth_token, payloads.payload_with_info, invalid_meme_id)
     assert put_meme_by_id_endpoint.check_status_code_is_(404)
 
 
@@ -101,14 +101,14 @@ def test_update_meme_invalid_id(auth_token, put_meme_by_id_endpoint):
 @pytest.mark.parametrize("text", ['what are memes'])
 @pytest.mark.parametrize("url", ['www.example.com'])
 @pytest.mark.smoke
-def test_update_meme_by_id_check_info(auth_token, post_meme_endpoint, put_meme_by_id_endpoint, text, url):
-    payload = payloads.payload_with_info
+def test_update_meme_by_id_check_info(auth_token, new_meme, put_meme_by_id_endpoint, text, url):
+    payload = payloads.new_meme_empty_payload
+    payload['id'] = new_meme
     payload['text'] = text
     payload['url'] = url
-    meme_id, _ = post_meme_endpoint.post_meme(auth_token, payloads.new_meme_empty_payload)
-    put_meme_by_id_endpoint.change_meme_by_id(auth_token, payload, meme_id)
-    assert post_meme_endpoint.check_response_text_is_(text)
-    assert post_meme_endpoint.check_response_url_is_(url)
+    put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
+    assert put_meme_by_id_endpoint.check_response_text_is_(text)
+    assert put_meme_by_id_endpoint.check_response_url_is_(url)
 
 
 @allure.feature('Delete meme by ID')
