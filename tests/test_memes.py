@@ -128,7 +128,6 @@ def test_delete_meme_invalid_id(auth_token, delete_meme_endpoint, meme_id, expec
 @allure.story('Delete a meme with valid id')
 @pytest.mark.regression
 @pytest.mark.positive
-def test_delete_meme(auth_token, post_meme_endpoint, delete_meme_endpoint):
-    meme_id, _ = post_meme_endpoint.post_meme(auth_token, payloads.new_meme_empty_payload)
-    delete_meme_endpoint.delete_meme_with_id(auth_token, meme_id)
+def test_delete_meme(auth_token, new_meme, delete_meme_endpoint):
+    delete_meme_endpoint.delete_meme_with_id(auth_token, new_meme)
     delete_meme_endpoint.check_status_code_is_(200)
