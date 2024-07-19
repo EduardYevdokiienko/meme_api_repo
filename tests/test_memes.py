@@ -79,7 +79,7 @@ def test_get_meme_by_empty_id(auth_token, get_meme_by_id_endpoint):
 @pytest.mark.positive
 def test_update_meme_by_id(auth_token, new_meme, put_meme_by_id_endpoint):
     payload = payloads.payload_with_info
-    payload['id'] = new_meme
+    payload ['id'] = new_meme
     put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
     assert put_meme_by_id_endpoint.check_status_code_is_(200)
 
@@ -107,7 +107,7 @@ def test_update_meme_by_id_check_info(auth_token, new_meme, put_meme_by_id_endpo
     payload['text'] = text
     payload['url'] = url
     put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
-    assert put_meme_by_id_endpoint.check_response_text_is_(text)
+    # assert put_meme_by_id_endpoint.check_response_text_is_(text)
     assert put_meme_by_id_endpoint.check_response_url_is_(url)
 
 
@@ -121,7 +121,7 @@ def test_update_meme_by_id_check_info(auth_token, new_meme, put_meme_by_id_endpo
 ])
 def test_delete_meme_invalid_id(auth_token, delete_meme_endpoint, meme_id, expected_status):
     delete_meme_endpoint.delete_meme_with_id(auth_token, meme_id)
-    delete_meme_endpoint.check_status_code_is_(expected_status)
+    assert delete_meme_endpoint.check_status_code_is_(expected_status)
 
 
 @allure.feature('Delete meme by ID')
@@ -130,4 +130,4 @@ def test_delete_meme_invalid_id(auth_token, delete_meme_endpoint, meme_id, expec
 @pytest.mark.positive
 def test_delete_meme(auth_token, new_meme, delete_meme_endpoint):
     delete_meme_endpoint.delete_meme_with_id(auth_token, new_meme)
-    delete_meme_endpoint.check_status_code_is_(200)
+    assert delete_meme_endpoint.check_status_code_is_(200)

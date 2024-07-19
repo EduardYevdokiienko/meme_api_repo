@@ -6,7 +6,7 @@ from tests.data.url import base_url
 
 class PutMeme(BaseApi):
     @allure.step('Change meme information')
-    def change_meme_by_id(self, token, payload, meme_id):
+    def change_meme_by_id(self, token,  meme_id, payload):
         headers = {"Authorization": token}
         self.response = requests.put(
             url=f'{base_url}/meme/{meme_id}',
