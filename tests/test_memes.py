@@ -79,7 +79,7 @@ def test_get_meme_by_empty_id(auth_token, get_meme_by_id_endpoint):
 @pytest.mark.positive
 def test_update_meme_by_id(auth_token, new_meme, put_meme_by_id_endpoint):
     payload = payloads.payload_with_info
-    payload ['id'] = new_meme
+    payload['id'] = new_meme
     put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
     assert put_meme_by_id_endpoint.check_status_code_is_(200)
 
@@ -107,7 +107,7 @@ def test_update_meme_by_id_check_info(auth_token, new_meme, put_meme_by_id_endpo
     payload['text'] = text
     payload['url'] = url
     put_meme_by_id_endpoint.change_meme_by_id(auth_token, new_meme, payload)
-    # assert put_meme_by_id_endpoint.check_response_text_is_(text)
+    assert put_meme_by_id_endpoint.check_response_text_is_(text)
     assert put_meme_by_id_endpoint.check_response_url_is_(url)
 
 
